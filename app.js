@@ -20,9 +20,20 @@ MODULE gameBoard
             ENDFOR
             ADD row to board
         ENDFOR
+
     FUNCTION markCell (row, column, mark)
         CASE mark OF
             X: CALL board[row][column].markX()
             O: CALL board[row][column].markO()
         ENDCASE
+
+    FUNCTION toString
+        INIT boardString to ""
+        FOR three rows
+            FOR three columns
+                ADD cell value to boardString
+            ENDFOR
+            ADD newline to boardString
+        ENDFOR
+        RETURN boardString
 */
