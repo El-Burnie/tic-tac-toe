@@ -47,3 +47,28 @@ const gameBoard = (function () {
 
     return { initBoard, markCell, toString };
 })();
+
+const gameController = (function () {
+    const play = (playerOneName = "Player 1", playerTwoName = "Player 2") => {
+        gameBoard.initBoard();
+        let gameOver = false;
+        let turnCounter = 0;
+        while (!gameOver) {
+            const activePlayer = (turnCounter % 2 === 0) ? "X" : "O";
+            switch (activePlayer) {
+                case "X":
+                    console.log(`${playerOneName}'s turn.`);
+                    break;
+                case "O":
+                    console.log(`${playerTwoName}'s turn.`);
+            }
+            turnCounter++;
+            gameOver = (turnCounter >= 9);
+        }
+        console.log("Game Over!");
+    };
+
+    return { play };
+})();
+
+gameController.play();
