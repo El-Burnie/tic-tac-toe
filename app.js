@@ -48,6 +48,8 @@ const gameBoard = (function () {
     return { initBoard, markCell, toString };
 })();
 
+// Tracks player names and prompts each player for input on their turn.
+// Declares when the game has ended.
 const gameController = (function () {
     const play = (playerOneName = "Player 1", playerTwoName = "Player 2") => {
         gameBoard.initBoard();
@@ -62,13 +64,21 @@ const gameController = (function () {
                 case "O":
                     console.log(`${playerTwoName}'s turn.`);
             }
+            const { row, col } = getPlayerInput();
+            gameBoard.markCell(row, col, activePlayer);
+            console.log(gameBoard.toString());
             turnCounter++;
             gameOver = (turnCounter >= 9);
         }
         console.log("Game Over!");
     };
 
+    const getPlayerInput = () => {
+        const row = +prompt("Select your row");
+        const col = +prompt("Select your column")
+        return { row, col }; 
+    };
+
     return { play };
 })();
 
-gameController.play();
