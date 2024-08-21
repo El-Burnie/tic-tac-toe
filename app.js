@@ -9,6 +9,7 @@ function createCell () {
 const gameBoard = (function () {
     const board = [];
 
+    // Clear the board and fill it with new blank cell objects
     const initBoard = () => {
         board.splice(0);
         for (let i = 0; i < 3; i++) {
@@ -30,6 +31,7 @@ const gameBoard = (function () {
         }
     };
 
+    // Returns the board state as a string to be printed to the console
     const toString = () => {
         let boardString = "";
 
