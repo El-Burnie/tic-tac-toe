@@ -1,14 +1,11 @@
+function createCell () {
+    let value = null;
+    const getValue = () => value;
+    const markX = () => value = "X";
+    const markO = () => value = "O";
+    return { getValue, markX, markO };
+};
 /*
-FACTORY cell
-    INIT value to null
-    FUNCTION getValue
-        RETURN value
-    FUNCTION markX
-        SET value to X
-    FUNCTION markO
-        SET value to O
-    RETURN { getValue, markX, markO }
-
 MODULE gameBoard
     INIT board to []
     FUNCTION initBoard
