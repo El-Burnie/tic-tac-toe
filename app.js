@@ -29,6 +29,27 @@ const gameBoard = (function () {
             case "O":
                 board[row][column].markO();
         }
+        
+    };
+
+    //checks all possible win conditions.  Returns true if a win condition is met
+    const checkForWin = () => {
+        for (let i = 0; i < 3; i++) {
+            // check row
+            if ((board[i][0].getValue() != null) && board[i][0].getValue() == board[i][1].getValue() && board[i][1].getValue() == board[i][2].getValue()) {
+                return true;
+            }
+            // check column
+            if ((board[0][i].getValue() != null) && board[0][i].getValue() == board[1][i].getValue() && board[1][i].getValue() == board[2][i].getValue()) {
+                return true;
+            }
+        }
+        //check diagonals
+        if ((((board[0][0].getValue() != null) && board[0][0].getValue() == board[1][1].getValue()) && board[1][1].getValue() == board[2][2].getValue()) ||
+            (((board[0][2].getValue() != null) && board[0][2].getValue() == board[1][1].getValue()) && board[1][1].getValue() == board[2][0].getValue())) {
+                return true;
+        }
+        return false;
     };
 
     // Returns the board state as a string to be printed to the console
@@ -45,7 +66,7 @@ const gameBoard = (function () {
         return boardString; 
     };
 
-    return { initBoard, markCell, toString };
+    return { initBoard, markCell, checkForWin, toString };
 })();
 
 // Tracks player names and prompts each player for input on their turn.
@@ -67,6 +88,7 @@ const gameController = (function () {
             const { row, col } = getPlayerInput();
             gameBoard.markCell(row, col, activePlayer);
             console.log(gameBoard.toString());
+            console.log(`Winner: ${gameBoard.checkForWin()}`);
             turnCounter++;
             gameOver = (turnCounter >= 9);
         }
