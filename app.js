@@ -52,6 +52,14 @@ const gameBoard = (function () {
         return false;
     };
 
+    // returns true if the cell has been filled this game.
+    const isCellFilled = (row, col) => {
+        if (board[row][col].getValue() != null) {
+            return true;
+        }
+        return false;
+    };
+
     // Returns the board state as a string to be printed to the console
     const toString = () => {
         let boardString = "";
@@ -66,7 +74,7 @@ const gameBoard = (function () {
         return boardString; 
     };
 
-    return { initBoard, markCell, checkForWin, toString };
+    return { initBoard, markCell, checkForWin, isCellFilled, toString };
 })();
 
 // Initializes and operates the game
@@ -80,7 +88,7 @@ const gameController = (function () {
 
     // Initializes players and game board, then runs 1 game to completion
     const play = () => {
-        const TOTAL_SQUARES = 9;
+        const TOTAL_CELLS = 9;
         const Players = [];
         let gameOver = false;
         let turnCounter = 0;
@@ -108,7 +116,7 @@ const gameController = (function () {
                 gameOver = true;
                 console.log(`${activePlayer.name} Wins!`);
 
-            } else if (turnCounter >= TOTAL_SQUARES) {
+            } else if (turnCounter >= TOTAL_CELLS) {
                 gameOver = true;
                 console.log("It's a tie!");
             }
@@ -116,10 +124,20 @@ const gameController = (function () {
         console.log("Game Over!");
     };
 
+    // recieves and validates player input
     const getPlayerInput = () => {
-        const row = +prompt("Select your row");
-        const col = +prompt("Select your column")
-        return { row, col }; 
+        let validInput = false;
+        while (!validInput) {
+            const row = +prompt("Select your row");
+            const col = +prompt("Select your column");
+            if (gameBoard.isCellFilled(row, col)) {
+                alert("That has already been filled, try again.");
+            } else {
+                validInput = true;
+                return { row, col }; 
+            }
+        }
+        
     };
 
     return { play };
