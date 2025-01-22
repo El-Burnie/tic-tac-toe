@@ -74,6 +74,7 @@ const gameBoard = (function () {
 const gameController = (function () {
     const play = (playerOneName = "Player 1", playerTwoName = "Player 2") => {
         gameBoard.initBoard();
+        const TOTAL_SQUARES = 9;
         let gameOver = false;
         let turnCounter = 0;
         while (!gameOver) {
@@ -87,10 +88,18 @@ const gameController = (function () {
             }
             const { row, col } = getPlayerInput();
             gameBoard.markCell(row, col, activePlayer);
-            console.log(gameBoard.toString());
-            console.log(`Winner: ${gameBoard.checkForWin()}`);
             turnCounter++;
-            gameOver = (turnCounter >= 9);
+            console.log(gameBoard.toString());
+
+            //checks for win condition. If there is none, checks if the last turn has been taken
+            if (gameBoard.checkForWin()) {
+                gameOver = true;
+                console.log("Winner!");
+
+            } else if (turnCounter >= TOTAL_SQUARES) {
+                gameOver = true;
+                console.log("It's a tie!");
+            }
         }
         console.log("Game Over!");
     };
