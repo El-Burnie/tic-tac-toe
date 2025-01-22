@@ -69,32 +69,44 @@ const gameBoard = (function () {
     return { initBoard, markCell, checkForWin, toString };
 })();
 
-// Tracks player names and prompts each player for input on their turn.
-// Declares when the game has ended.
+// Initializes and operates the game
 const gameController = (function () {
-    const play = (playerOneName = "Player 1", playerTwoName = "Player 2") => {
-        gameBoard.initBoard();
+    
+    //constructor for player objects, which contain a name and "X" or "O" token
+    function Player(playerName, playerToken) {
+        this.name = playerName;
+        this.token = playerToken;
+    };
+
+    // Initializes players and game board, then runs 1 game to completion
+    const play = () => {
         const TOTAL_SQUARES = 9;
+        const Players = [];
         let gameOver = false;
         let turnCounter = 0;
+        Players.push(new Player(prompt("Input Player 1 Name", "Player 1"), "X"));
+        Players.push(new Player(prompt("Input Player 2 Name", "Player 2"), "O"));
+        gameBoard.initBoard();
+        
         while (!gameOver) {
-            const activePlayer = (turnCounter % 2 === 0) ? "X" : "O";
-            switch (activePlayer) {
-                case "X":
-                    console.log(`${playerOneName}'s turn.`);
-                    break;
-                case "O":
-                    console.log(`${playerTwoName}'s turn.`);
+            let activePlayer;
+            // player 1 is index 0 and player 2 is at index 1 in Players array.
+            // Incrementing the turnCounter will alternate the selected player.
+            if (turnCounter != 0) {
+                activePlayer = Players[turnCounter % 2];
+            } else {
+                activePlayer = Players[0];
             }
+            console.log(`${activePlayer.name}'s turn!`);
             const { row, col } = getPlayerInput();
-            gameBoard.markCell(row, col, activePlayer);
+            gameBoard.markCell(row, col, activePlayer.token);
             turnCounter++;
             console.log(gameBoard.toString());
 
             //checks for win condition. If there is none, checks if the last turn has been taken
             if (gameBoard.checkForWin()) {
                 gameOver = true;
-                console.log("Winner!");
+                console.log(`${activePlayer.name} Wins!`);
 
             } else if (turnCounter >= TOTAL_SQUARES) {
                 gameOver = true;
