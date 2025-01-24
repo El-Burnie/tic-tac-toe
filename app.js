@@ -1,13 +1,13 @@
-function createCell () {
-    let value = null;
-    const getValue = () => value;
-    const markX = () => value = "X";
-    const markO = () => value = "O";
-    return { getValue, markX, markO };
-};
-
 const gameBoard = (function () {
     const board = [];
+
+    function createCell () {
+        let value = null;
+        const getValue = () => value;
+        const markX = () => value = "X";
+        const markO = () => value = "O";
+        return { getValue, markX, markO };
+    };
 
     // Clear the board and fill it with new blank cell objects
     const initBoard = () => {
@@ -52,9 +52,9 @@ const gameBoard = (function () {
         return false;
     };
 
-    // returns true if the cell has been filled this game.
-    const isCellFilled = (row, col) => {
-        return (board[row][col].getValue() != null);
+    // returns the symbol in the specified cell, or null if there isn't one
+    const valueAt = (row, col) => {
+        return board[row][col].getValue();
     };
 
     // Returns the board state as a string to be printed to the console
@@ -71,7 +71,7 @@ const gameBoard = (function () {
         return boardString; 
     };
 
-    return { initBoard, markCell, checkForWin, isCellFilled, toString };
+    return { initBoard, markCell, checkForWin, valueAt, toString };
 })();
 
 // Initializes and operates the game
@@ -127,19 +127,19 @@ const gameController = (function () {
         while (!validInput) {
             const row = +prompt("Select your row");
             const col = +prompt("Select your column");
-            if (gameBoard.isCellFilled(row, col)) {
+            if (gameBoard.valueAt(row, col)) {
                 alert("That has already been filled, try again.");
             } else {
                 validInput = true;
                 return { row, col }; 
             }
-        }
-        
+        } 
     };
 
     return { play };
 })();
 
+// Updates the display on the webpage to reflect the game state in gameController
 const displayController = (function () {
     
     // initialize display
@@ -157,6 +157,13 @@ const displayController = (function () {
     const markRed = (row, col) => {
         displayBoard[row][col].style.backgroundColor = "red"; 
     };
-
+/*
+    const update = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+            }
+        }
+    };
+*/
     return { markRed };
 })();
