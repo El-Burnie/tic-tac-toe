@@ -140,3 +140,23 @@ const gameController = (function () {
     return { play };
 })();
 
+const displayController = (function () {
+    
+    // initialize display
+    const displayBoard = [];
+    let counter = 1;
+    for (let i = 0; i < 3; i++) {
+        const row = [];
+        for (let j = 0; j < 3; j++) {
+            row.push(document.querySelector(`div.square:nth-child(${counter})`));
+            counter++;
+        }
+        displayBoard.push(row);
+    }
+
+    const markRed = (row, col) => {
+        displayBoard[row][col].style.backgroundColor = "red"; 
+    };
+
+    return { markRed };
+})();
