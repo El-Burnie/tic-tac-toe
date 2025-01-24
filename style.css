@@ -43,6 +43,8 @@ h2 {
     min-width: var(--square-size);
     min-height: var(--square-size);
     background-color: white;
+    text-align: center;
+    font-size: 3rem;
 }
 
 #new-game-button {

@@ -106,6 +106,7 @@ const gameController = (function () {
             const { row, col } = getPlayerInput();
             gameBoard.markCell(row, col, activePlayer.token);
             turnCounter++;
+            displayController.update();
             console.log(gameBoard.toString());
 
             //checks for win condition. If there is none, checks if the last turn has been taken
@@ -157,13 +158,15 @@ const displayController = (function () {
     const markRed = (row, col) => {
         displayBoard[row][col].style.backgroundColor = "red"; 
     };
-/*
+
     const update = () => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
+                const cell = displayBoard[i][j];
+                cell.textContent = gameBoard.valueAt(i, j);
             }
         }
     };
-*/
-    return { markRed };
+
+    return { markRed, update };
 })();
