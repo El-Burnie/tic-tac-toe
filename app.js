@@ -54,10 +54,7 @@ const gameBoard = (function () {
 
     // returns true if the cell has been filled this game.
     const isCellFilled = (row, col) => {
-        if (board[row][col].getValue() != null) {
-            return true;
-        }
-        return false;
+        return (board[row][col].getValue() != null);
     };
 
     // Returns the board state as a string to be printed to the console
