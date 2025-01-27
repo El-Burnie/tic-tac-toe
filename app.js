@@ -95,7 +95,6 @@ const gameController = (function () {
         Players.push(new Player(prompt("Input Player 1 Name", "Player 1"), "X"));
         Players.push(new Player(prompt("Input Player 2 Name", "Player 2"), "O"));
         gameBoard.initBoard();
-        displayController.clearDisplay();
         displayController.update();
         gameOver = false;
         turnCounter = 0;
@@ -137,6 +136,7 @@ const displayController = (function () {
     const promptBar = document.getElementById("prompt-bar");
     const displayBoard = [];
     let counter = 1;
+
     for (let i = 0; i < 3; i++) {
         const row = [];
         for (let j = 0; j < 3; j++) {
@@ -152,6 +152,13 @@ const displayController = (function () {
         }
         displayBoard.push(row);
     };
+
+    //initialize the new game button.
+    const newGameButton = document.querySelector("#new-game-button");
+    newGameButton.addEventListener("click", () => {
+        clearDisplay();
+        gameController.newGame();
+    });
 
     const clearDisplay = () => {
         for (let i = 0; i < 3; i++) {
@@ -175,5 +182,5 @@ const displayController = (function () {
         promptBar.textContent = message;
     }
 
-    return { clearDisplay, update, prompt };
+    return { update, prompt };
 })();
