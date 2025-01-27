@@ -102,7 +102,7 @@ const gameController = (function () {
             } else {
                 activePlayer = Players[0];
             }
-            displayController.displayActivePlayer(activePlayer.name);
+            displayController.prompt(`${activePlayer.name}'s turn`);
             const { row, col } = getPlayerInput();
             gameBoard.markCell(row, col, activePlayer.token);
             turnCounter++;
@@ -112,14 +112,14 @@ const gameController = (function () {
             //checks for win condition. If there is none, checks if the last turn has been taken
             if (gameBoard.checkForWin()) {
                 gameOver = true;
-                console.log(`${activePlayer.name} Wins!`);
+                displayController.prompt(`${activePlayer.name} Wins!`);
 
             } else if (turnCounter >= TOTAL_CELLS) {
                 gameOver = true;
-                console.log("It's a tie!");
+                displayController.prompt("It's a tie!");
             }
         }
-        console.log("Game Over!");
+        //console.log("Game Over!");
     };
 
     // recieves and validates player input
@@ -173,9 +173,10 @@ const displayController = (function () {
         }
     };
 
-    const displayActivePlayer = (name) => {
-        promptBar.textContent = `${name}'s turn`;
+    //sets the text above the game board as the input. Blank will clear the prompt bar.
+    const prompt = (message) => {
+        promptBar.textContent = message;
     }
 
-    return { markRed, update, displayActivePlayer };
+    return { markRed, update, prompt };
 })();
