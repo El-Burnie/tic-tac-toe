@@ -83,51 +83,53 @@ const gameController = (function () {
         this.token = playerToken;
     };
 
-    // Initializes players and game board, then runs 1 game to completion
-    const play = () => {
-        const TOTAL_CELLS = 9;
-        const Players = [];
-        let gameOver = false;
-        let turnCounter = 0;
+    const TOTAL_CELLS = 9;
+    const Players = [];
+    let gameOver = true;
+    let turnCounter = 0;
+    let activePlayer;
+
+    // Initializes players and game board
+    const newGame = () => {
+        Players.splice(0, Players.length);
         Players.push(new Player(prompt("Input Player 1 Name", "Player 1"), "X"));
         Players.push(new Player(prompt("Input Player 2 Name", "Player 2"), "O"));
         gameBoard.initBoard();
+        displayController.update();
+        gameOver = false;
+        turnCounter = 0;
+        activePlayer = Players[0];
+        displayController.prompt(`${activePlayer.name}'s turn`);
+    };
         
-        while (!gameOver) {
-            let activePlayer;
+    const playRound = (row, col) => {
+        if (gameOver) {
+            return false;
+        }
+        gameBoard.markCell(row, col, activePlayer.token);
+        turnCounter++;
+        displayController.update();
+        console.log(gameBoard.toString());
+
+        if (gameBoard.checkForWin()) {
+            gameOver = true;
+            displayController.prompt(`${activePlayer.name} Wins!`);
+
+        } else if (turnCounter >= TOTAL_CELLS) {
+            gameOver = true;
+            displayController.prompt("It's a tie!");
+        } else {
             // player 1 is index 0 and player 2 is at index 1 in Players array.
             // Incrementing the turnCounter will alternate the selected player.
-            if (turnCounter != 0) {
-                activePlayer = Players[turnCounter % 2];
-            } else {
-                activePlayer = Players[0];
-            }
+            activePlayer = Players[turnCounter % 2];
             displayController.prompt(`${activePlayer.name}'s turn`);
-            const { row, col } = getPlayerInput();
-            gameBoard.markCell(row, col, activePlayer.token);
-            turnCounter++;
-            displayController.update();
-            console.log(gameBoard.toString());
-
-            //checks for win condition. If there is none, checks if the last turn has been taken
-            if (gameBoard.checkForWin()) {
-                gameOver = true;
-                displayController.prompt(`${activePlayer.name} Wins!`);
-
-            } else if (turnCounter >= TOTAL_CELLS) {
-                gameOver = true;
-                displayController.prompt("It's a tie!");
-            }
         }
-        //console.log("Game Over!");
-    };
+    }  
 
     // recieves and validates player input
-    const getPlayerInput = () => {
+    const playerInput = (row, col) => {
         let validInput = false;
         while (!validInput) {
-            const row = +prompt("Select your row");
-            const col = +prompt("Select your column");
             if (gameBoard.valueAt(row, col)) {
                 alert("That has already been filled, try again.");
             } else {
@@ -137,7 +139,7 @@ const gameController = (function () {
         } 
     };
 
-    return { play };
+    return { newGame, playRound };
 })();
 
 // Updates the display on the webpage to reflect the game state in gameController
@@ -152,7 +154,9 @@ const displayController = (function () {
         for (let j = 0; j < 3; j++) {
             const cell = document.querySelector(`div.square:nth-child(${counter})`)
             cell.addEventListener("click", () => {
-                console.log("test");
+                if (cell.textContent){
+                    console.log(test);
+                }
             });
             row.push(cell);
             counter++;
