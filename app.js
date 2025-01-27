@@ -102,7 +102,7 @@ const gameController = (function () {
             } else {
                 activePlayer = Players[0];
             }
-            console.log(`${activePlayer.name}'s turn!`);
+            displayController.displayActivePlayer(activePlayer.name);
             const { row, col } = getPlayerInput();
             gameBoard.markCell(row, col, activePlayer.token);
             turnCounter++;
@@ -144,6 +144,7 @@ const gameController = (function () {
 const displayController = (function () {
     
     // initialize display
+    const promptBar = document.getElementById("prompt-bar");
     const displayBoard = [];
     let counter = 1;
     for (let i = 0; i < 3; i++) {
@@ -172,5 +173,9 @@ const displayController = (function () {
         }
     };
 
-    return { markRed, update };
+    const displayActivePlayer = (name) => {
+        promptBar.textContent = `${name}'s turn`;
+    }
+
+    return { markRed, update, displayActivePlayer };
 })();
