@@ -95,6 +95,7 @@ const gameController = (function () {
         Players.push(new Player(prompt("Input Player 1 Name", "Player 1"), "X"));
         Players.push(new Player(prompt("Input Player 2 Name", "Player 2"), "O"));
         gameBoard.initBoard();
+        displayController.clearDisplay();
         displayController.update();
         gameOver = false;
         turnCounter = 0;
@@ -126,19 +127,6 @@ const gameController = (function () {
         }
     }  
 
-    // recieves and validates player input
-    const playerInput = (row, col) => {
-        let validInput = false;
-        while (!validInput) {
-            if (gameBoard.valueAt(row, col)) {
-                alert("That has already been filled, try again.");
-            } else {
-                validInput = true;
-                return { row, col }; 
-            }
-        } 
-    };
-
     return { newGame, playRound };
 })();
 
@@ -154,18 +142,23 @@ const displayController = (function () {
         for (let j = 0; j < 3; j++) {
             const cell = document.querySelector(`div.square:nth-child(${counter})`)
             cell.addEventListener("click", () => {
-                if (cell.textContent){
-                    console.log(test);
+                if (!cell.classList.contains("invalid")) {
+                    gameController.playRound(i, j);
+                    cell.classList.add("invalid");
                 }
             });
             row.push(cell);
             counter++;
         }
         displayBoard.push(row);
-    }
+    };
 
-    const markRed = (row, col) => {
-        displayBoard[row][col].style.backgroundColor = "red"; 
+    const clearDisplay = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                displayBoard[i][j].classList.remove("invalid");
+            }
+        }
     };
 
     const update = () => {
@@ -182,5 +175,5 @@ const displayController = (function () {
         promptBar.textContent = message;
     }
 
-    return { markRed, update, prompt };
+    return { clearDisplay, update, prompt };
 })();
