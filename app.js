@@ -149,7 +149,11 @@ const displayController = (function () {
     for (let i = 0; i < 3; i++) {
         const row = [];
         for (let j = 0; j < 3; j++) {
-            row.push(document.querySelector(`div.square:nth-child(${counter})`));
+            const cell = document.querySelector(`div.square:nth-child(${counter})`)
+            cell.addEventListener("click", () => {
+                console.log("test");
+            });
+            row.push(cell);
             counter++;
         }
         displayBoard.push(row);
