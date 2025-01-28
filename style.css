@@ -50,6 +50,10 @@ h2 {
     font-weight: 700;
 }
 
+.square:not(.invalid):hover {
+    background-color: lightgrey;
+}
+
 #new-game-button {
     margin-top: 3rem;
 }

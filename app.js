@@ -114,6 +114,7 @@ const gameController = (function () {
         if (gameBoard.checkForWin()) {
             gameOver = true;
             displayController.prompt(`${activePlayer.name} Wins!`);
+            displayController.lockBoard();
 
         } else if (turnCounter >= TOTAL_CELLS) {
             gameOver = true;
@@ -141,6 +142,7 @@ const displayController = (function () {
         const row = [];
         for (let j = 0; j < 3; j++) {
             const cell = document.querySelector(`div.square:nth-child(${counter})`)
+            cell.classList.add("invalid");
             cell.addEventListener("click", () => {
                 if (!cell.classList.contains("invalid")) {
                     gameController.playRound(i, j);
@@ -156,11 +158,11 @@ const displayController = (function () {
     //initialize the new game button.
     const newGameButton = document.querySelector("#new-game-button");
     newGameButton.addEventListener("click", () => {
-        clearDisplay();
+        unlockBoard();
         gameController.newGame();
     });
 
-    const clearDisplay = () => {
+    const unlockBoard = () => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 displayBoard[i][j].classList.remove("invalid");
@@ -182,5 +184,13 @@ const displayController = (function () {
         promptBar.textContent = message;
     }
 
-    return { update, prompt };
+    const lockBoard = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                displayBoard[i][j].classList.add("invalid");
+            }
+        }
+    }
+
+    return { update, prompt, lockBoard };
 })();
