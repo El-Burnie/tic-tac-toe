@@ -54,6 +54,10 @@ h2 {
     background-color: lightgrey;
 }
 
+.square:not(.invalid):active {
+    border: 0.125rem inset grey;
+}
+
 #new-game-button {
     margin-top: 3rem;
 }
