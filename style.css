@@ -1,12 +1,18 @@
 :root {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: var(--text-color);
     --square-size: 8rem;
+    --text-color: #0A0908;
+    --background-color: #508484;
+    --piece-color: #588E89;
+    --highlight-color: #8AD0AB;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--background-color);
 }
 
 #title {
@@ -36,26 +42,31 @@ h2 {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 1rem 1rem;
-    background-color: black;
+    background-color: var(--text-color);
 }
 
 .square {
     display: flex;
     min-width: var(--square-size);
     min-height: var(--square-size);
-    background-color: white;
+    background-color: var(--background-color);
     justify-content: center;
     align-items: center;
     font-size: 5rem;
     font-weight: 700;
+    color: var(--piece-color);
+    text-shadow: -1px 1px 0px var(--highlight-color), 
+    1px 1px 0px var(--highlight-color),
+    1px -1px 0px var(--highlight-color),
+    -1px -1px 0px var(--highlight-color);
 }
 
 .square:not(.invalid):hover {
-    background-color: lightgrey;
+    background-color: var(--highlight-color);
 }
 
 .square:not(.invalid):active {
-    border: 0.125rem inset grey;
+    border: 0.125rem inset var(--background-color);
 }
 
 #new-game-button {
